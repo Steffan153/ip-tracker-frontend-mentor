@@ -12,7 +12,6 @@ export interface IpInfo {
 }
 
 export async function getLocation(address: string | null): Promise<IpInfo> {
-    throw new Error();
     let url = 'https://geo.ipify.org/api/v1?apiKey=' + import.meta.env.VITE_IPIFY_KEY;
     if (address) {
         url += isIpAddress(address) ? '&ipAddress=' : '&domain=';
