@@ -1,0 +1,11 @@
+.top-area {
+    background-image: url(/pattern-bg-mobile.png);
+    background-size: cover;
+    background-position: center center;
+}
+
+@media (min-width: 460px) {
+    .top-area {
+        background-image: url(/pattern-bg-desktop.png);
+    }
+}
