@@ -5,3 +5,7 @@
 body {
     font-family: Rubik, sans-serif;
 }
+
+.leaflet-container {
+    height: 100%;
+}

@@ -3,7 +3,7 @@ import {FunctionComponent, KeyboardEventHandler, useEffect, useRef, useState} fr
 import {getLocation, IpInfo} from "../helpers/get-location";
 import InfoElements from "./InfoElements";
 
-import ArrowIcon from '../assets/icon-arrow.svg';
+import {ReactComponent as ArrowIcon} from '../assets/icon-arrow.svg';
 
 type TopAreaProps = {
     loc: IpInfo,

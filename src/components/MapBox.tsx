@@ -1,7 +1,8 @@
-import {useEffect, useRef, FunctionComponent} from "react";
-import mapboxgl from "mapbox-gl";
-
-mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_KEY;
+import {useEffect, FunctionComponent} from "react";
+import {MapContainer, TileLayer, Marker, useMap} from 'react-leaflet';
+import {Icon} from 'leaflet';
+import 'leaflet/dist/leaflet.css';
+import locationIcon from '../assets/icon-location.svg';
 
 type MapProps = {
     lng: number,
@@ -9,28 +10,31 @@ type MapProps = {
 }
 
 const MapBox: FunctionComponent<MapProps> = ({lng, lat}) => {
-    const mapContainer = useRef<HTMLDivElement | null>(null);
-    const map = useRef<mapboxgl.Map | null>(null);
-    const marker = useRef<mapboxgl.Marker | null>(null);
+    const Recenter = () => {
+        const map = useMap();
 
-    useEffect(() => {
-        if (map.current) return;
-        map.current = new mapboxgl.Map({
-            container: mapContainer.current!,
-            style: "mapbox://styles/mapbox/streets-v12",
-            center: [0, 0],
-            zoom: 14,
-        });
-        map.current.addControl(new mapboxgl.NavigationControl());
-        marker.current = new mapboxgl.Marker().setLngLat([0, 0]).addTo(map.current);
-    }, []);
+        useEffect(() => {
+            map.setView([lat, lng]);
+            map.setZoom(11);
+        }, [lng, lat]);
 
-    useEffect(() => {
-        marker.current?.setLngLat([lng, lat]);
-        map.current?.setCenter([lng, lat]).setZoom(14);
-    }, [lng, lat]);
+        return null;
+    };
 
-    return <div className="h-full" ref={mapContainer}/>;
+    const icon = new Icon({
+        iconUrl: locationIcon,
+        iconAnchor: [23, 56],
+    });
+
+    return <MapContainer center={[lat, lng]} zoom={11} scrollWheelZoom={true}>
+        <TileLayer
+            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        />
+        <Marker position={[lat, lng]}
+                icon={icon}/>
+        <Recenter/>
+    </MapContainer>;
 };
 
 export default MapBox;
